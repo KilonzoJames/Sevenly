@@ -16,7 +16,7 @@ timezone:
 
 title: Sevenly # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: "CTF & Beyond: My Cyber Notebook" # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -29,7 +29,7 @@ github:
   username: kilonzojames # change to your GitHub username
 
 twitter:
-  username: twitter_username # change to your Twitter username
+  username: se_venly # change to your Twitter username
 
 social:
   # Change to your full name.
@@ -38,7 +38,7 @@ social:
   email: jay.kilonzo@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
+    - https://twitter.com/se_venly # change to your Twitter homepage
     - https://github.com/kilonzojames # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
@@ -95,10 +95,10 @@ theme_mode: # [light | dark]
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-cdn:
+cdn: https://res.cloudinary.com
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: /dzif8ltvg/image/upload/v1750874821/et4lf5lup4ripznhowum.jpg
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
