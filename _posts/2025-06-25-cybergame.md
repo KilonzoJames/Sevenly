@@ -1,7 +1,7 @@
 ---
 title: CyberGame 2025
 date: 2025-06-26 10:00:00 +0800
-categories: [CTF, cryptography]
+categories: [ctf, cryptography]
 tags: [ctf, cybergame, cryptography]     # TAG names should always be lowercase
 description: "Short Crypto Tales - SecretFunction^2 – Points: 18"
 ---

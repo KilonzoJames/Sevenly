@@ -1,7 +1,7 @@
 ---
 title: Microsoft ADC Capture the Flag
 date: 2025-06-25 08:00:00 +0800
-categories: [CTF, forensics]
+categories: [ctf, forensics]
 tags: [ctf, microsoftadcctf]     # TAG names should always be lowercase
 description: "We are 2 days away from the event: Kindly go through the teaser to see what we have instore for you on the day!"
 ---

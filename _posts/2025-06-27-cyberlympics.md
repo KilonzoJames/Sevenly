@@ -1,8 +1,8 @@
 ---
 title: Cyberlympics (2025)
 date: 2025-06-27 08:00:00 +0800
-categories: [ctf, crypto]
-tags: [ctf, cyberlympics, cyberchef, crypto ]    # TAG names should always be lowercase
+categories: [ctf, cryptography]
+tags: [ctf, cyberlympics, cyberchef, cryptography ]    # TAG names should always be lowercase
 description: "Challenge: Lorenzo 150"
 ---
 
