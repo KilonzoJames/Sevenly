@@ -8,9 +8,13 @@ group: "BGR - SIV Pipeline Forensics Group 5"
 ---
 
 
-![Desktop View](/dzif8ltvg/image/upload/v1750932948/CTF/hn98wa3mg7oking6uxiy.jpg){: width="400" height="400"}
+## Introduction
 
-The challenge presents an image of a dog, hinting at a digital forensics task. Our goal: uncover hidden data buried within the image.
+This challenge presented us with an image of a dog, indicating a digital forensics task focused on **steganography** or **data concealment**. Our primary objective was to uncover hidden data embedded within the image file.
+
+![Dog Image](/dzif8ltvg/image/upload/v1751287639/CTF/US%20Cyber%20Open/e20wyibynfmc3kppo6lm.png){: width="400" height="400"}
+
+I've included the [original dog image here (uncompressed)](/assets/files/charlie.jpg "Download the original uncompressed image file for analysis.") for your reference.
 
 ---
 
@@ -25,7 +29,7 @@ For this challenge, I used `exiftool` on Linux. However, this initial inspection
 exiftool charlie.jpg 
 ```
 
-![EXIF Data Screenshot](/dzif8ltvg/image/upload/v1750936834/CTF/kz3dre3yy6tmk4hdlzqm.png){: width="400" height="400" }
+![EXIF Data Screenshot](/dzif8ltvg/image/upload/v1750936834/CTF/US%20Cyber%20Open/kz3dre3yy6tmk4hdlzqm.png){: width="400" height="400" }
 
 ---
 
@@ -42,7 +46,7 @@ binwalk -e charlie.jpg
 ```
 ### Output:
 
-![Binwalk Output](/dzif8ltvg/image/upload/v1750936834/CTF/f4fhlkgp2hvj3odgckzy.png){: width="972" height="589" }
+![Binwalk Output](/dzif8ltvg/image/upload/v1750936834/CTF/US%20Cyber%20Open/f4fhlkgp2hvj3odgckzy.png){: width="972" height="589" }
 
 ---
 
@@ -54,11 +58,11 @@ Recognizing the Base64 pattern, I used CyberChef, a powerful online tool, for de
 
 The initial Base64 decoding resulted in what still appeared to be gibberish. However, the presence of "JFIF" at the beginning of the decoded output strongly indicated that the data was a JPEG image. Fortunately, CyberChef has the capability to render images directly from raw data.
 
-![CyberChef Recipe](/dzif8ltvg/image/upload/v1750939417/CTF/svgalxmlyslmlrwshvzk.png){: width="400" height="400" }
+![CyberChef Recipe](/dzif8ltvg/image/upload/v1750939417/CTF/US%20Cyber%20Open/svgalxmlyslmlrwshvzk.png){: width="400" height="400" }
 
 And there we had it – the flag!
 
-![Decoded Flag Image](/dzif8ltvg/image/upload/v1750935536/CTF/v7vnkgmy3iwy8flbpqgi.jpg){: width="400" height="400" }
+![Decoded Flag Image](/dzif8ltvg/image/upload/v1750935536/CTF/US%20Cyber%20Open/v7vnkgmy3iwy8flbpqgi.jpg){: width="400" height="400" }
 
 The flag text can then be extracted from the image using an [Optical Character Recognition (OCR) tool](https://www.i2ocr.com/free-online-english-ocr).
 
