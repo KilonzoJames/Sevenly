@@ -256,17 +256,16 @@ This function simply reads and prints the contents of flag.txt — so our main c
 
 
 ### Strategy: Static vs Dynamic
+
 Given the challenge, two main approaches could be considered:
 
-1. Static Analysis (Ghidra/IDA/Radare2): 
+1.  **Static Analysis (Ghidra/IDA/Radare2):**
+    * Search for the global or static variable `pass` in the decompiled or disassembled code.
+    * If it's directly initialized in the binary's `.data` or `.rodata` section, it might show as: `char pass[10] = "S3cr3tK3y!";`
+    * If it's obfuscated or dynamically loaded, further analysis of surrounding code would be necessary.
 
-Search for the global or static variable `pass` in the decompiled or disassembled code. 
-
-If it's directly initialized in the binary's `.data` or `.rodata` section, it might show as: `char pass[10] = "S3cr3tK3y!";`
-
-If it's obfuscated or dynamically loaded, further analysis of surrounding code would be necessary.
-
-2. Dynamic Analysis (GDB): Execute the binary in a debugger and inspect its memory and registers during runtime, particularly around the `strncmp` call, to find the value of `pass`.
+2.  **Dynamic Analysis (GDB):**
+    * Execute the binary in a debugger and inspect its memory and registers during runtime, particularly around the `strncmp` call, to find the value of `pass`.
 
 I opted for dynamic analysis using GDB, which proved to be an efficient method for this challenge.
 
@@ -279,65 +278,64 @@ Given the clear comparison in main(), dynamic analysis using GDB was an efficien
 
 Here's a transcript of the GDB session:
 
-1. Prepare dummy input: Create a file with 10 characters (e.g., 'A's) to provide input to the program's read() function.
+1.  **Prepare dummy input:** Create a file with 10 characters (e.g., 'A's) to provide input to the program's `read()` function.
 
-```bash
-❯ echo -n "AAAAAAAAAA" > input.txt
-```
+    ```bash
+    ❯ echo -n "AAAAAAAAAA" > input.txt
+    ```
 
-2. Launch GDB and load the binary:
+2.  **Launch GDB and load the binary:**
 
-```bash
-❯ gdb ./access_granted
-GNU gdb (GDB) 12.1
-... (GDB license and info messages) ...
-Reading symbols from ./access_granted...
-# ... (redacted verbose output for brevity) ...
-(gdb) break main
-Breakpoint 1 at 0x1319
-(gdb) run < input.txt
-Starting program: /path to binary file/access_granted < input.txt
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+    ```bash
+    ❯ gdb ./access_granted
+    GNU gdb (GDB) 12.1
+    ... (GDB license and info messages) ...
+    Reading symbols from ./access_granted...
+    # ... (redacted verbose output for brevity) ...
+    (gdb) break main
+    Breakpoint 1 at 0x1319
+    (gdb) run < input.txt
+    Starting program: /path to binary file/access_granted < input.txt
+    [Thread debugging using libthread_db enabled]
+    Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 
-Breakpoint 1, 0x0000555555555319 in main ()
-```
+    Breakpoint 1, 0x0000555555555319 in main ()
+    ```
 
-3. Break at strncmp and Continue
+3.  **Break at `strncmp` and Continue:**
 
-```bash
-(gdb) break strncmp
-Breakpoint 2 at 0x7ffff7d99660: strncmp. (2 locations)
-(gdb) continue
-Continuing.
-Enter the password : 
-processing...
-# ... (redacted) ...
-```
+    ```bash
+    (gdb) break strncmp
+    Breakpoint 2 at 0x7ffff7d99660: strncmp. (2 locations)
+    (gdb) continue
+    Continuing.
+    Enter the password :
+    processing...
+    # ... (redacted) ...
+    ```
 
-4. Inspect strncmp arguments: Once execution hits the strncmp breakpoint, the program will pause. We can then inspect the contents of the rdi and rsi registers to find the values being compared.
+4.  **Inspect `strncmp` arguments:** Once execution hits the `strncmp` breakpoint, the program will pause. We can then inspect the contents of the `rdi` and `rsi` registers to find the values being compared.
 
-- The first argument (rdi) holds the correct password (pass).
+    * The first argument (`rdi`) holds the correct password (`pass`).
+    * The second argument (`rsi`) holds our dummy input.
 
-- The second argument (rsi) holds our dummy input.
+    ```bash
+    (gdb) x/s $rdi
+    0x555555558010 <pass>:  "industrial"
+    (gdb) x/s $rsi
+    0x7fffffffd9c0: "AAAAAAAAAA"
+    ```
 
-```bash
-(gdb) x/s $rdi
-0x555555558010 <pass>:	"industrial"
-(gdb) x/s $rsi
-0x7fffffffd9c0:	"AAAAAAAAAA"
-```
+5.  **Exit GDB:**
 
-4. Exit GDB:
+    ```bash
+    (gdb) quit
+    A debugging session is active.
 
-```bash 
-(gdb) quit
-A debugging session is active.
+        Inferior 1 [process 234320] will be killed.
 
-	Inferior 1 [process 234320] will be killed.
-
-Quit anyway? (y or n) y
-```
+    Quit anyway? (y or n) y
+    ```
 
 ---
 
