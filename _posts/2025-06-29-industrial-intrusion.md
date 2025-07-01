@@ -73,31 +73,33 @@ The second challenge involved further enumeration of the previously found subdom
 
 Our investigation started with the two identified subdomains. While direct web browse of `54484d7b5375357373737d.virelia-water.it.com` did not reveal any immediate leads, we continued our analysis with `stage0.virelia-water.it.com`.
 
-1.  **Source Code Analysis of `stage0.virelia-water.it.com`:**
-    Upon inspecting the HTML source code of `stage0.virelia-water.it.com`, we identified a link to an external JavaScript file:
+#### Source Code Analysis of `stage0.virelia-water.it.com`:
+Upon inspecting the HTML source code of `stage0.virelia-water.it.com`, we identified a link to an external JavaScript file:
     
-    [https://raw.githubusercontent.com/SanTzu/uplink-config/refs/heads/main/init.js](https://raw.githubusercontent.com/SanTzu/uplink-config/refs/heads/main/init.js)
+[https://raw.githubusercontent.com/SanTzu/uplink-config/refs/heads/main/init.js](https://raw.githubusercontent.com/SanTzu/uplink-config/refs/heads/main/init.js)
     
-    This JavaScript file (`init.js`) contained the following object:
+This JavaScript file (`init.js`) contained the following object:
 
-    ```javascript
-    var beacon = {
-      session_id: "O-TX-11-403",
-      fallback_dns: "uplink-fallback.virelia-water.it.com",
-      token: "JBSWY3DPEBLW64TMMQQQ=="
-    };
-    ```
+```javascript
+var beacon = {
+    session_id: "O-TX-11-403",
+    fallback_dns: "uplink-fallback.virelia-water.it.com",
+    token: "JBSWY3DPEBLW64TMMQQQ=="
+};
+```
 
-## Investigation of `uplink-fallback.virelia-water.it.com`
+#### Investigation of `uplink-fallback.virelia-water.it.com`
 
 The `fallback_dns` value, `uplink-fallback.virelia-water.it.com`, immediately suggested a potential Command & Control (C2) infrastructure subdomain. 
 Although direct DNS resolution attempts (e.g., `dig ANY uplink-fallback.virelia-water.it.com`) did not yield immediate results, we pivoted to investigating DNS `TXT` records, which are often used to store arbitrary data, including configuration or hidden messages.
 
-    ```bash
-    # Initial attempt that didn't yield useful results
-    dig ANY uplink-fallback.virelia-water.it.com
-    # ... (Output omitted) ...
-    ```
+```bash
+# Initial attempt that didn't yield useful results
+dig ANY uplink-fallback.virelia-water.it.com
+# ... (Output omitted) ...
+```
+
+Steps Taken:
 
 1.  **Querying TXT Records:**
 
