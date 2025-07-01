@@ -138,35 +138,23 @@ Alternatively, if writing an exploit script, the byte array can be directly used
 
 ### Remote Exploitation
 
-To interact with the running challenge on the remote host (let's use 10.10.10.10 as an example, since the exact IP might vary in a CTF), we need to send these specific bytes.
+To interact with the running challenge on the remote host (using `10.10.10.10:9005` as an example, as the exact IP/port might vary in a CTF), we need to send the specific 8-byte unlock code.
 
-Here's how to do it using Python and netcat:
+The correct 8 byte unlock code (as a Python byte string), identified as `0xba98fedc32107654`, needs to be sent in its little-endian byte representation: `b"\x54\x76\x10\x32\xdc\xfe\x98\xba"`.
 
-1. Connect via netcat
-Open a terminal and connect using:
+We can send this binary payload directly to the `netcat` listener using Python's `sys.stdout.buffer.write` to ensure non-printable bytes are handled correctly, followed by a newline character (`\n`) to simulate pressing `Enter` after the input.
 
-```bash
-nc 10.10.80.97 9005
-```
-
-You should see the prompt: `[?] Enter unlock code:`
-
-2. Prepare the payload 
-The correct 8 byte unlock code as a Python byte string: `b"\x54\x76\x10\x32\xdc\xfe\x98\xba"`
-
-3. Send the payload via netcat:
-Since direct typing isn't possible, we'll pipe the bytes to netcat using Python's sys.stdout.buffer.write to ensure binary data is handled correctly. Remember to include a newline character (\n) to simulate pressing Enter after the input.
+Since direct typing isn't possible, we'll pipe the bytes to netcat using Python's sys.stdout.buffer.write to ensure binary data is handled correctly. 
 
 ```bash
-python3 -c 'import sys; sys.stdout.buffer.write(b"\x54\x76\x10\x32\xdc\xfe\x98\xba\n")' | nc 10.10.10.10 9005
+python3 -c 'import sys; sys.stdout.buffer.write(b"\x54\x76\x10\x32\xdc\xfe\x98\xba\n")' | nc 10.10.80.97 9005
 ```
 
-⚠️ Note:
+---
 
-- The \n at the end simulates pressing Enter.
-- sys.stdout.buffer.write is required to handle non-printable binary data correctly.
 
-4. Expected Output
+### Expected Output
+
 If successful, you’ll get something like:
 
 ```bash
