@@ -5,18 +5,22 @@ order: 4
 ---
 
 {: .prompt-tip }
-🙌 Welcome! I'm James Kilonzo
 
-You might also know me as **`Sevenly`** in cybersecurity circles and the CTF world.
+**Welcome to My Technical Documentation Hub!**
 
-Deeply immersed in the realm of **cybersecurity**, I find immense excitement in Capture The Flag (CTF) challenges — the intricate details and the endless rabbit holes they often lead down.
+---
 
-When I'm not exploring the security landscape, I shift gears into **front-end development**, leveraging **React** and **Tailwind CSS** to build sleek, intuitive user interfaces. 
+Hi there! I'm Sevenly 🙌
 
-I'm also:
+As a cybersecurity enthusiast 🛡️, CTF solver 🚩, and software engineer 💻, this site serves as my personal repository for documenting tech experiments 🧪, cybersecurity write-ups 📝, and general nerdy deep dives 🕳️. My goal is to break down complex topics 🧩 into fun, easy-to-follow, step-by-step guides 👣.
 
-- 🐧 A passionate **Linux enthusiast**
-- 🤔 A strong advocate for **continuous learning**
-- 💻 A software engineer with a focus on translating abstract ideas into **robust, elegant solutions**.. 
+My fascination with cybersecurity 🔒 is profound, and I relish the opportunity that Capture The Flag (CTF) challenges provide, pulling me into their captivating rabbit holes 🌀 and extensive explorations 🔍.
+
+When I'm not navigating the security landscape 🌐, I shift gears into **front-end development** 🎨 with **React** ⚛️ and **Tailwind CSS** 💨, and love diving into Linux 🐧 and low-level systems ⚙️.
+
+Feel free to explore 🧭, remix 🛠️, and learn 📚 from the content here. I hope you find something useful and insightful ✨!
+
+Find me online: 
+[Discord](https://discord.com/users/sevenly_87180) | [LinkedIn](https://www.linkedin.com/in/james-kilonzo-392249104/) | [TryHackMe](https://tryhackme.com/p/Sevenly)
 
 ---
