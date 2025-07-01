@@ -1,6 +1,6 @@
 ---
 title: Industrial Intrusion (2025) - Web Challenge Write-up
-date: 2025-06-30 08:00:00 +0800
+date: 2025-07-01 08:00:00 +0800
 categories: [ctf, web]
 tags: [ctf, tryhackme, web, sqli]    # TAG names should always be lowercase
 description: "Challenge: Web Task 35"
@@ -9,7 +9,7 @@ description: "Challenge: Web Task 35"
 
 ## Introduction
 
-This write-up details the solution and methodologies employed to solve **Task 35: Web Uninterrupted Problem Supply** from the "Industrial Intrusion (2025)" CTF.
+This write-up details the solution and methodologies employed to solve **Task 35: Web Uninterrupted Problem Supply** from the "Industrial Intrusion (2025)" CTF. This challenge focused on exploiting a SQL Injection vulnerability to bypass authentication on a login page.
 
 ## Task 35 Web Uninterrupted Problem Supply
 
@@ -43,7 +43,7 @@ Table: users
 +----+------------------------------------------------------------------+----------+
 ```
 
-The database dump revealed what appeared to be the administrator's password hash: 6a9790ec070cf62edb10aa335bfd4c8f18b532126eea4dd9fe363423b4c73a8a. My immediate next step was to attempt cracking this hash using hashcat with a common wordlist:
+The database dump revealed what appeared to be the administrator's password hash: `6a9790ec070cf62edb10aa335bfd4c8f18b532126eea4dd9fe363423b4c73a8a`. My immediate next step was to attempt cracking this hash using hashcat with a common wordlist:
 
 ```bash
 hashcat -m 1400 -a 0 6a9790ec070cf62edb10aa335bfd4c8f18b532126eea4dd9fe363423b4c73a8a /path to wordlist/rockyou.txt
@@ -56,13 +56,15 @@ Unfortunately, extensive attempts to crack the hash using rockyou.txt and other 
 
 ### Authentication Bypass via UNION Injection
 
-Given the uncrackable hash, I shifted my focus to a SQL-based authentication bypass via UNION injection. This vulnerability typically arises when the backend validates user credentials after retrieving data from the database, and lacks proper input sanitization or the use of prepared statements.
+Given the uncrackable hash, I shifted my focus to a SQL-based authentication bypass via `UNION` injection. This vulnerability typically arises when the backend validates user credentials after retrieving data from the database, and lacks proper input sanitization or the use of prepared statements.
 
 The following crafted payload exploits this flaw by injecting a fabricated user row that matches the expected password hash during the local validation process:
 
 ```sql
 ' UNION SELECT 1, 'admin', SHA2('joker', 256)-- -
 ```
+
+---
 
 
 ### Exploitation Mechanism
@@ -98,18 +100,17 @@ SELECT * FROM users WHERE username = '' UNION SELECT 1, 'admin', SHA2('joker', 2
 
 By submitting the crafted payload as the username and "joker" as the password, the backend accepted the injected row, authenticated successfully, and redirected us to the logged-in section of the application. The flag was prominently displayed there:
 
-`THM{energy_backup_systems_compromised}`
+**THM{energy_backup_systems_compromised}**
 
 ---
 
-## 🧩 Summary of Vulnerabilities:
+
+## 🧩 Summary of Vulnerabilities
 
 The successful authentication bypass underscored a profound failure in the application's security posture. The core issues stemmed from:
 
-- Direct SQL Injection Vulnerability: The login form was susceptible to direct manipulation of database queries.
-
-- Post-Query Password Validation: Critical password validation logic was executed after arbitrary data could be injected and retrieved, effectively nullifying its purpose.
-
-- Absence of Secure Coding Practices: The lack of robust input sanitization and the neglect of prepared statements provided the necessary conditions for this bypass to occur.
+* **Direct SQL Injection Vulnerability:** The login form was susceptible to direct manipulation of database queries.
+* **Post-Query Password Validation:** Critical password validation logic was executed after arbitrary data could be injected and retrieved, effectively nullifying its purpose.
+* **Absence of Secure Coding Practices:** The lack of robust input sanitization and the neglect of prepared statements provided the necessary conditions for this bypass to occur.
 
 ---
