@@ -21,6 +21,6 @@ When I'm not navigating the security landscape 🌐, I shift gears into **front-
 Feel free to explore 🧭, remix 🛠️, and learn 📚 from the content here. I hope you find something useful and insightful ✨!
 
 Find me online: 
-[Discord](https://discord.com/users/sevenly_87180) | [LinkedIn](https://www.linkedin.com/in/james-kilonzo-392249104/) | [TryHackMe](https://tryhackme.com/p/Sevenly)
+[Discord](https://discord.com/users/sevenly_87180) | [TryHackMe](https://tryhackme.com/p/Sevenly)
 
 ---
