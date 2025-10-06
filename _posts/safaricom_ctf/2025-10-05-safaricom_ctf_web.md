@@ -64,7 +64,7 @@ This stackhint narrowed the attack surface to template rendering and server-side
 
 ---
 
-### Initial tests
+## Initial tests
 
 I tested the `message` parameter to understand its reflection/escaping behavior. A simple XSS check showed input was reflected in the page:
 
@@ -80,7 +80,7 @@ I tested the `message` parameter to understand its reflection/escaping behavior.
 
 ---
 
-### Remote listener setup
+## Remote listener setup
 
 The exploit required the target to connect back to a public listener. My environment lacked direct router forwarding, so I used **ngrok** to expose a local listener:
 
@@ -127,17 +127,24 @@ The exploit required the target to connect back to a public listener. My environ
 
 ---
 
-### Attack Approach: Template Injection to Reverse Shell 🐚
+## Attack Approach: Template Injection to Reverse Shell 🐚
 
-The vulnerability exploited involved the application rendering reflected user input directly within a template context.
+### Discovery & vulnerability class
 
-I used a template evaluation / remote lookup style payload — specifically tailored to the app's underlying technology stack to trigger a crucial action on the server:
+Initial reconnaissance identified a Spring/Thymeleaf stack through error page analysis and favicon fingerprinting. This indicated template rendering evaluation as a potential attack surface, aligning with the general class of vulnerabilities exemplified by **Text4Shell (CVE-2022-42889)** where untrusted input can be improperly interpreted or evaluated by a template/lookup mechanism.
 
-1. Outbound Connection: The server was coerced into initiating an outbound TCP connection to my controlled ngrok endpoint.
+The specific flaw exploited was the application's improper rendering of reflected user input within template contexts without adequate sanitization or disabling of expression evaluation.
 
-2. Reverse Shell: This connection was then used to spawn and redirect a reverse shell back to my listener.
+### Exploit Execution
 
-For reference on the general class of technique see: [text4shell](https://www.aquasec.com/cloud-native-academy/supply-chain-security/text4shell/) 
+I employed a template evaluation / remote lookup style payload, specifically  tailored to the app's underlying technology stack, to coerce the server into a two-stage exploitation sequence:
+
+1. **Outbound Connection**:The server was successfully triggered to initiate an outbound TCP connection to my controlled ngrok endpoint.
+
+2. **Reverse Shell**: This established connection was then used to spawn and redirect an interactive reverse shell back to the attacker’s listener.
+
+**Reference:** For broader context on this vulnerability class, see [Text4Shell CVE (CVE-2022-42889): Impact and Fixes](https://www.aquasec.com/cloud-native-academy/supply-chain-security/text4shell/)
+
 
 ---
 
@@ -158,7 +165,7 @@ Note: This specific structure utilizes a scripting engine within the templating 
 
 ---
 
-### Receiving the shell
+## Receiving the shell
 
 Once the payload was successfully delivered to the target application, my ngrok listener received the incoming connection and dropped into an interactive shell.
 
